@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useRef } from "react";
 import "./Header.css";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import SearchIcon from "@mui/icons-material/Search";
 import { Link } from "react-router-dom";
 import { useStateValue } from "./StateProvider";
 
-function Header() {
+function Header({ handler }) {
   const [{ basket }] = useStateValue();
+  const searchValue = useRef();
+
+  const handleClick = () => {
+    console.log(searchValue.current.value);
+    handler(searchValue.current.value);
+  };
+
   return (
     <div className="header">
       <Link to="/" style={{ textDecoration: "none" }}>
@@ -20,8 +27,10 @@ function Header() {
       </Link>
 
       <div className="header__search">
-        <input type="text" className="header__searchInput" />
-        <SearchIcon className="header__searchIcon" />
+        <input type="text" className="header__searchInput" ref={searchValue} />
+        <button onClick={handleClick} className="header-btn">
+          <SearchIcon className="header__searchIcon" />
+        </button>
       </div>
 
       <div className="header__nav">
